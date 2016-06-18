@@ -9,4 +9,24 @@ class Humanize
 			@length = num.to_s.size
 	end
 
+	def to_word
+		if @length == 1
+			singles
+		elsif @length == 2
+			tens
+		elsif @length == 3
+			hundreds
+		elsif @length == 4 || 5 || 6
+			thousands
+		elsif @length == 7 || 8 || 9
+			millions
+		elsif @length == 10 || 11 || 12
+			billions
+		end
+	end
+				
+	def singles(number = @number)
+		SINGLES.fetch(number)
+	end
+
 end
