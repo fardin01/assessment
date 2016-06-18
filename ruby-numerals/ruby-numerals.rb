@@ -29,4 +29,12 @@ class Humanize
 		SINGLES.fetch(number)
 	end
 
+		def tens
+		if FIRST_TENS.include?(@number)
+			FIRST_TENS.fetch(@number)
+		else
+			SECOND_TENS.fetch(@digits.first * 10) + " " + SINGLES.fetch(@digits.last)
+		end
+	end
+
 end
