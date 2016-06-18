@@ -29,12 +29,17 @@ class Humanize
 		SINGLES.fetch(number)
 	end
 
-		def tens
+	def tens(digits = @digits)
 		if FIRST_TENS.include?(@number)
 			FIRST_TENS.fetch(@number)
+		elsif digits.join.to_i <= 19
+			SINGLES.merge(FIRST_TENS).fetch(digits.join.to_i)
 		else
-			SECOND_TENS.fetch(@digits.first * 10) + " " + SINGLES.fetch(@digits.last)
+			SECOND_TENS.fetch(digits.first * 10) + " " + SINGLES.fetch(digits.last)
 		end
 	end
 
+	def hundreds
+		singles(@digits.first) + " Hundred and " + tens(@digits[1..2].map{|n| n.to_i}) #tens returns array
+	end
 end
