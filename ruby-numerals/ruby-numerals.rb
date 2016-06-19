@@ -7,6 +7,7 @@ class Humanize
 	def initialize(num)
 			@number = num
 			@length = num.to_s.size
+			@digits = number.to_s.split('').map{ |number| number.to_i}
 	end
 
 	def to_word
@@ -16,11 +17,11 @@ class Humanize
 			tens
 		elsif @length == 3
 			hundreds
-		elsif @length == 4 || 5 || 6
+		elsif (4..6) === @length
 			thousands
-		elsif @length == 7 || 8 || 9
+		elsif (7..9) === @length
 			millions
-		elsif @length == 10 || 11 || 12
+		elsif (10..12) === @length
 			billions
 		end
 	end
@@ -39,7 +40,17 @@ class Humanize
 		end
 	end
 
-	def hundreds
-		singles(@digits.first) + " Hundred and " + tens(@digits[1..2].map{|n| n.to_i}) #tens returns array
+	def hundreds(digits = @digits)
+		singles(digits.first) + " Hundred and " + tens(digits[1..2].map{|n| n.to_i}) #tens returns array
+	end
+
+	def thousands(digits = @digits)
+		if @length == 4
+			singles(digits.first) + " Thousand and " + hundreds(digits[1..3])
+		elsif @length == 5
+			tens(digits[0..1]) + " Thousand and " + hundreds(digits[2..4])
+		elsif @length == 6
+			hundreds(digits[0..2]) + " Thousand and " + hundreds(digits[3..5])
+		end
 	end
 end
