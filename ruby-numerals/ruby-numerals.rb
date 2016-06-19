@@ -1,6 +1,6 @@
 class Humanize
 
-	SINGLES = {0 => "zero", 1 => "One", 2 => "Two", 3 => "Three", 4 => "Four", 5 => "Five", 6 => "Six", 7 => "Seven", 8 => "Eight", 9 => "Nine"}
+	SINGLES = {0 => "Zero", 1 => "One", 2 => "Two", 3 => "Three", 4 => "Four", 5 => "Five", 6 => "Six", 7 => "Seven", 8 => "Eight", 9 => "Nine"}
 	FIRST_TENS = {11 => "Eleven", 12 => "Twelve", 13 => "Thirteen", 14 => "Fourteen", 15 => "Fifteen", 16 => "Sixteen", 17 => "Seventeen", 18 => "Eighteen", 19 => "Nineteen"}
 	SECOND_TENS = {20 => "Twenty", 30 => "Thirty", 40 => "Fourty", 50 => "Fifty", 60 => "Sixty", 70 => "Sventy", 80 => "Eighty", 90 => "Ninety"}
 
@@ -44,13 +44,22 @@ class Humanize
 		singles(digits.first) + " Hundred and " + tens(digits[1..2].map{|n| n.to_i}) #tens returns array
 	end
 
-	def thousands(digits = @digits)
-		if @length == 4
+	def thousands(digits = @digits, length = @length)
+		if length == 4
 			singles(digits.first) + " Thousand and " + hundreds(digits[1..3])
-		elsif @length == 5
+		elsif length == 5
 			tens(digits[0..1]) + " Thousand and " + hundreds(digits[2..4])
-		elsif @length == 6
+		elsif length == 6
 			hundreds(digits[0..2]) + " Thousand and " + hundreds(digits[3..5])
 		end
 	end
-end
+
+	def millions(digits = @digits, length = @length)
+		if length  == 7
+			singles(digits.first) + " Million and " + thousands(digits[1..6], 6)
+		elsif length == 8
+			tens(digits[0..1]) + " Million and " + thousands(digits[2..7], 6)
+		elsif length == 9
+			hundreds(digits[0..2]) + " Million and " + thousands(digits[3..8], 6)
+		end
+	end
