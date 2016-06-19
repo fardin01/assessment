@@ -63,3 +63,14 @@ class Humanize
 			hundreds(digits[0..2]) + " Million and " + thousands(digits[3..8], 6)
 		end
 	end
+
+	def billions
+		if @length  == 10
+			singles(@digits.first) + " Billion and " + millions(@digits[1..9], 9)
+		elsif @length == 11
+			tens(@digits[0..1]) + " Billion and " + millions(@digits[2..10], 9)
+		elsif @length == 12
+			hundreds(@digits[0..2]) + " Billion and " + millions(@digits[3..11], 9)
+		end
+	end
+end
